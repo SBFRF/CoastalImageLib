@@ -297,7 +297,7 @@ def deBayerParallel(i, cams, rawPaths, frame = 0, numFrames = 0):
         pool.apply_async(cameras[cams[p]].readRaw())
 
     pool.close()
-    pool.join() 
+    pool.join()
     
     for p in range(len(cams)):
         cameras[cams[p]].deBayer()
@@ -348,13 +348,13 @@ def formatArgusFile(cams,folder,epoch, **kwargs):
     mon_str = t.strftime('%b')
 
     day_folder = jul_str + '_' + mon_str + '.' + str(t.day).zfill(2) + '/'
-    file = str(epoch)+ '.' + day_str + '.' + mon_str + '.' + str(t.day).zfill(2) + '_' + \
-            str(t.hour).zfill(2) + '_' + str(t.minute).zfill(2) + '_' + \
-            str(t.second).zfill(2) + '.GMT.' + str(t.year) + '.argus02b.'
+    # file = str(epoch)+ '.' + day_str + '.' + mon_str + '.' + str(t.day).zfill(2) + '_' + \
+    #         str(t.hour).zfill(2) + '_' + str(t.minute).zfill(2) + '_' + \
+    #         str(t.second).zfill(2) + '.GMT.' + str(t.year) + '.argus02b.'
+    file = f"{epoch}.{t.strftime('%a')}.{t.strftime('%b')}.{t.strftime('%d_%H_%M_%S')}.GMT.{t.strftime('%Y')}.argus02b."
     paths = [(folder + cams[i] + '/' + day_folder + file + cams[i] + '.raw') for i in range(len(cams))]
 
-    out_path = kwargs.get('outFileBase', '')
-    outFile = out_path + str(t.day).zfill(2) + '_' + str(t.hour).zfill(2) + '_' + str(t.minute).zfill(2)
+    outFile = os.path.join(kwargs.get('outFileBase', folder), f"ArgusFF_{t.strftime('%Y%m%dT%H%M%SZ')}_RectifiedVideo.mp4")
 
     return paths, outFile
 
