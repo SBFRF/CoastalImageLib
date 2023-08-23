@@ -334,34 +334,34 @@ def mergeRectify(input_frames, cameras, grid, **kwargs):
 
         ### TODO: store a reference histogram as a self object that we repeatedly come to
         # Match histograms
-        if refImage is None:
-            refImage = input_frames[:, :, (k + 2 * nc): (k + 2 * nc + nc)]
-            print('made a reference image')
-        if np.max(image) == 0:
-            image = image
-            print('found an image with max = 0')
-        else:
-            image = matchHist(refImage, image)
-
-        # if k == 0:
-        #     if np.max(image) == 0:
-        #         ref = input_frames[:, :, (k+1 * nc): (k+1 * nc + nc)]
-        #         if np.max(ref) == 0:
-        #             ref = input_frames[:, :, (k+2 * nc): (k+2 * nc + nc)]
-        #             if np.max(ref) == 0:
-        #                 ref = input_frames[:, :, (k + 3 * nc): (k + 3 * nc + nc)]
-        #                 if np.max(ref) == 0:
-        #                     ref = input_frames[:, :, (k + 4 * nc): (k + 4 * nc + nc)]
-        #                     if np.max(ref) == 0:
-        #                         ref = input_frames[:, :, (k + 5 * nc): (k + 5 * nc + nc)]
-        #     else:
-        #         ref = image
+        # if refImage is None:
+        #     refImage = input_frames[:, :, (k + 2 * nc): (k + 2 * nc + nc)]
+        #     # print('made a reference image')
+        # if np.max(image) == 0:
+        #     image = image
+        #     # print('found an image with max = 0')
         # else:
-        #     if np.max(image) == 0:
-        #         image = image
-        #         print('found an image with max = 0')
-        #     else:
-        #         image = matchHist(ref, image)
+        #     image = matchHist(refImage, image)
+
+        if k == 0:
+            if np.max(image) == 0:
+                ref = input_frames[:, :, (k+1 * nc): (k+1 * nc + nc)]
+                if np.max(ref) == 0:
+                    ref = input_frames[:, :, (k+2 * nc): (k+2 * nc + nc)]
+                    if np.max(ref) == 0:
+                        ref = input_frames[:, :, (k + 3 * nc): (k + 3 * nc + nc)]
+                        if np.max(ref) == 0:
+                            ref = input_frames[:, :, (k + 4 * nc): (k + 4 * nc + nc)]
+                            if np.max(ref) == 0:
+                                ref = input_frames[:, :, (k + 5 * nc): (k + 5 * nc + nc)]
+            else:
+                ref = image
+        else:
+            if np.max(image) == 0:
+                image = image
+                # print('found an image with max = 0')
+            else:
+                image = matchHist(ref, image)
 
 
         if calib.Ud == "None":
@@ -895,9 +895,9 @@ class CameraData(object):
         """
         This function precalculates the distorted UV coordinates (UVd)  that
         correspond to a set of world xyz points for the camera matrix contained
-        in the self object. 
+        in the self object.
 
-        This allows the user to save computational time by only having to do 
+        This allows the user to save computational time by only having to do
         this calculation once for one camera-grid pair.
 
         Arguments:

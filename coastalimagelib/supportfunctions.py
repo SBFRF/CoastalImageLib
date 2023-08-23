@@ -328,7 +328,6 @@ def deBayerArgus(cams, rawPaths, frame=0, numFrames=1, checkHeaders=False):
             outmats = np.zeros((2048, 2448, 6), dtype=np.uint8)
             for p in range(len(cams)):
                 if frame[p] > 0:
-                    print('adding a real image')
                     outmats[:, :, p] = frames[cams[p]].astype(np.uint8)
 
         return outmats, timeFrames, frameGain, frameShutter
@@ -548,7 +547,7 @@ def saveNetCDF(rect_arr, xyz, coords, outfile):
     encoding = {"merged": {"dtype": "uint8", "_FillValue": 0}}
     # use xarray to create the netcdf
     ncstruct = xr.Dataset(
-        {"merged": (["y", "x"], rect_arr)}, 
+        {"merged": (["y", "x"], rect_arr)},
         coords={"xyz": xyz, "coord_type": coords, }
     )
     ncstruct.to_netcdf(outfile, encoding=encoding)
@@ -584,7 +583,7 @@ def avgColor(img):
         img - np.ndarray representing image
               img read as skimage.io.imread( 'imagefilename.jpg' )
     Returns:
-        av - av (np.array of average r, g, b values), 
+        av - av (np.array of average r, g, b values),
         avall - average of r,g,b
 
     """
